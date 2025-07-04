@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import  ConvexClerkProvider  from "../components/providers/ConvexClerkProvider";
+import Navbar from "@/components/Navbar";
+import { SignedOut,SignedIn } from "@clerk/nextjs";
+import { RedirectToSignIn } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
+import "@stream-io/video-react-sdk/dist/css/styles.css"
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,12 +31,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ConvexClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen font-inter`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SignedIn>
+              <div className="min-h-screen">
+                <Navbar />
+                <main className="px-4 sm:px-6 lg:px-8 ">
+                  <div className="glass-panel min-h-screen w-full flex flex-col">
+                    {children}
+                  </div>
+                </main>
+              </div>
+            </SignedIn>
+            <SignedOut>
+              <RedirectToSignIn></RedirectToSignIn>
+            </SignedOut>
+          </ThemeProvider>
+          <Toaster />
+        </body>
+      </html>
+    </ConvexClerkProvider>
   );
 }
