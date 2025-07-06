@@ -1,5 +1,6 @@
 # 🎥 Vidcruit — Video Interview Platform 
 
+Demo : https://vidcruit-one.vercel.app/
 
 **Vidcruit** is a modern, real-time video interview platform built using **Next.js 14 App Router**, integrated with **Stream Video SDK**, **Convex DB**, and **Clerk** for authentication and user management.
 
